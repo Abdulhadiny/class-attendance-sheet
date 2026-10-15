@@ -1,0 +1,291 @@
+/* ---------- Colours & sizes ---------- */
+:root {
+  --text: #1f2937;
+  --muted: #9ca3af;
+  --border: #e5e7eb;
+  --header-bg: #f7f8fa;
+  --stripe-bg: #fafafa;
+  --green: #16a34a;
+  --green-dark: #15803d;
+
+  /* Widths of the three frozen columns on the left */
+  --avatar-width: 72px;
+  --name-width: 220px;
+  --count-width: 120px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  color: var(--text);
+  background: #f3f4f6;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+/* ---------- Header ---------- */
+.page-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.summary {
+  margin: 4px 0 0;
+  color: #6b7280;
+}
+
+/* ---------- Toolbar (the two forms) ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0 16px;
+}
+
+.field-group {
+  display: flex;
+  gap: 8px;
+}
+
+.field-group input {
+  font: inherit;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+
+.field-group button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--green);
+  color: #fff;
+  font-weight: 600;
+}
+
+.field-group button:hover {
+  background: var(--green-dark);
+}
+
+/* ---------- The sheet ---------- */
+/* The table scrolls inside this box, both across and down */
+.sheet {
+  max-height: 70vh;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate; /* "collapse" would stop sticky cells keeping their borders */
+  border-spacing: 0;
+}
+
+th,
+td {
+  height: 56px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Header row stays at the top while you scroll down */
+th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--header-bg);
+  font-weight: 600;
+}
+
+/* Small grey divider before each header label */
+th + th::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 35%;
+  width: 2px;
+  height: 30%;
+  background: var(--border);
+}
+
+/* Zebra stripes */
+tbody tr:nth-child(even) td {
+  background: var(--stripe-bg);
+}
+
+/* ---------- Frozen columns (avatar, name, check-ins) ---------- */
+/* They stay on the left while the date columns scroll sideways */
+.col-avatar,
+.col-name,
+.col-count {
+  position: sticky;
+  z-index: 1;
+}
+
+.col-avatar {
+  left: 0;
+  width: var(--avatar-width);
+  min-width: var(--avatar-width);
+  padding: 0 8px;
+  text-align: center;
+}
+
+.col-name {
+  left: var(--avatar-width);
+  width: var(--name-width);
+  min-width: var(--name-width);
+  white-space: normal; /* long names wrap instead of pushing the column wider */
+}
+
+.col-count {
+  left: calc(var(--avatar-width) + var(--name-width));
+  width: var(--count-width);
+  min-width: var(--count-width);
+  border-right: 1px solid var(--border);
+}
+
+/* Top-left header cells sit above everything else */
+th.col-avatar,
+th.col-name,
+th.col-count {
+  z-index: 3;
+}
+
+/* ---------- Date columns ---------- */
+.col-day {
+  min-width: 140px;
+  text-align: center;
+}
+
+/* ---------- Cell contents ---------- */
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f3f5;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.sort-button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-weight: 600;
+}
+
+.tick {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.tick:hover {
+  background: #f1f3f5;
+}
+
+.tick.present {
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+}
+
+.tick.present:hover {
+  background: var(--green-dark);
+}
+
+/* The little x for removing a student or a day.
+   Hidden until you hover the row or header. */
+.remove-button {
+  margin-left: 6px;
+  padding: 0 6px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.4;
+  opacity: 0;
+}
+
+tbody tr:hover .remove-button,
+th:hover .remove-button,
+.remove-button:focus-visible {
+  opacity: 1;
+}
+
+.remove-button:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Touch screens have no hover, so always show it */
+@media (hover: none) {
+  .remove-button {
+    opacity: 1;
+  }
+}
+
+.empty {
+  height: 120px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.hint {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  :root {
+    --avatar-width: 52px;
+    --name-width: 130px;
+    --count-width: 96px;
+  }
+
+  th,
+  td {
+    padding: 0 10px;
+  }
+
+  .field-group {
+    width: 100%;
+  }
+
+  .field-group input {
+    flex: 1;
+    min-width: 0;
+  }
+}

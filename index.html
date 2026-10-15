@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Attendance</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <h1>Class Attendance</h1>
+      <p id="summary" class="summary"></p>
+    </header>
+
+    <section class="toolbar">
+      <!-- Add a student to the register -->
+      <form id="add-student-form" class="field-group">
+        <input id="student-name" type="text" placeholder="Student name" autocomplete="off" required>
+        <button type="submit">Add student</button>
+      </form>
+
+      <!-- Add a class day (a new date column) -->
+      <form id="add-day-form" class="field-group">
+        <input id="day-date" type="date" required>
+        <button type="submit">Add day</button>
+      </form>
+    </section>
+
+    <!-- The register. Rows and columns are built by script.js -->
+    <div class="sheet">
+      <table>
+        <thead>
+          <tr id="header-row"></tr>
+        </thead>
+        <tbody id="student-rows"></tbody>
+      </table>
+    </div>
+
+    <p class="hint">Click a cell to tick a student present for that day. Click again to untick.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
